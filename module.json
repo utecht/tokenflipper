@@ -1,0 +1,14 @@
+{
+  "id": "tokenflipper",
+  "title": "TokenFlipper",
+  "version": "0.0.1",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "url": "https://github.com/utecht/tokenflipper",
+  "flags": {
+    "canUpload": true
+  },
+  "description": ""
+}
