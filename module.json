@@ -10,5 +10,6 @@
   "flags": {
     "canUpload": true
   },
-  "description": ""
+  "description": "Flip tokens horizontally with a keyboard shortcut for better roleplay immersion in town scenes.",
+  "esmodules": ["scripts/tokenflipper.js"]
 }
