@@ -1,7 +1,10 @@
+import { initializeEmoteSockets, playEmote, getDefaultEmotes, createEmoteMacro } from "./emotes.js";
+import { registerEmoteConfigMenu } from "./emote-config.js";
+
 const MODULE_ID = "tokenflipper";
 
 Hooks.once("init", () => {
-  // Register settings
+  // Register flip/bounce settings
   game.settings.register(MODULE_ID, "flipDuration", {
     name: "Flip Animation Duration",
     hint: "Duration of the flip animation in milliseconds. Set to 0 for instant flip.",
@@ -58,6 +61,19 @@ Hooks.once("init", () => {
     }
   });
 
+  // Register emotes setting (world-scoped, GM only)
+  game.settings.register(MODULE_ID, "emotes", {
+    name: "Emotes",
+    hint: "Configured emote animations.",
+    scope: "world",
+    config: false,
+    type: Array,
+    default: []
+  });
+
+  // Register the emote configuration menu
+  registerEmoteConfigMenu();
+
   // Register keybinding for horizontal flip
   game.keybindings.register(MODULE_ID, "flipHorizontal", {
     name: "Flip Token Horizontally",
@@ -96,8 +112,39 @@ Hooks.once("init", () => {
 });
 
 Hooks.once("ready", () => {
-  console.log(`${MODULE_ID} | TokenFlipper loaded - Press F to flip, Shift+F to bounce`);
+  // Initialize socket listeners for emotes
+  initializeEmoteSockets();
+
+  // Expose API for macros
+  game.modules.get(MODULE_ID).api = {
+    playEmote: playEmote,
+    createEmoteMacro: createEmoteMacro,
+    flipSelectedTokens: flipSelectedTokens,
+    bounceSelectedTokens: bounceSelectedTokens
+  };
+
+  // Initialize default emotes if none exist (first run)
+  initializeDefaultEmotes();
+
+  console.log(`${MODULE_ID} | TokenFlipper v0.5 loaded - Press F to flip, Shift+F to bounce`);
 });
+
+/**
+ * Initialize default emotes on first run
+ */
+async function initializeDefaultEmotes() {
+  // Only GM can set world settings
+  if (!game.user.isGM) return;
+
+  const emotes = game.settings.get(MODULE_ID, "emotes");
+
+  // Only initialize if empty (first run)
+  if (emotes.length === 0) {
+    const defaults = getDefaultEmotes();
+    await game.settings.set(MODULE_ID, "emotes", defaults);
+    console.log(`${MODULE_ID} | Initialized default emotes`);
+  }
+}
 
 /**
  * Flip all currently selected tokens

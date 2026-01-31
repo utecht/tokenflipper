@@ -1,7 +1,7 @@
 {
   "id": "tokenflipper",
   "title": "TokenFlipper",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
@@ -12,6 +12,11 @@
   "flags": {
     "canUpload": true
   },
-  "description": "Flip tokens horizontally with a keyboard shortcut for better roleplay immersion in town scenes.",
-  "esmodules": ["scripts/tokenflipper.js"]
+  "socket": true,
+  "description": "Flip tokens, bounce them, and play emote animations for better roleplay immersion in town scenes.",
+  "esmodules": [
+    "scripts/tokenflipper.js",
+    "scripts/emotes.js",
+    "scripts/emote-config.js"
+  ]
 }

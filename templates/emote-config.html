@@ -1,0 +1,107 @@
+<form class="tokenflipper-emote-config" autocomplete="off">
+    <p class="notes">Configure emote animations that can be played on tokens. Create macros to add them to your hotbar.</p>
+
+    <div class="emote-list">
+        {{#each emotes}}
+        <div class="emote-item flexcol">
+            <div class="emote-header flexrow">
+                <img src="{{this.image}}" width="24" height="24" onerror="this.style.display='none'">
+                <h4>{{this.name}}</h4>
+            </div>
+
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="emotes.{{@index}}.name" value="{{this.name}}" placeholder="Emote name">
+            </div>
+
+            <div class="form-group">
+                <label>Image</label>
+                <div class="form-fields">
+                    <input type="text" name="emotes.{{@index}}.image" value="{{this.image}}" placeholder="path/to/image.png">
+                    <button type="button" class="file-picker-button" title="Browse Files">
+                        <i class="fas fa-folder-open"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Position Offsets (pixels from token top-center)</label>
+                <div class="form-fields">
+                    <label style="flex: 0;">X:</label>
+                    <input type="number" name="emotes.{{@index}}.offsetX" value="{{this.offsetX}}" placeholder="0" style="width: 60px;">
+                    <label style="flex: 0; margin-left: 10px;">Y:</label>
+                    <input type="number" name="emotes.{{@index}}.offsetY" value="{{this.offsetY}}" placeholder="-20" style="width: 60px;">
+                    <label style="flex: 0; margin-left: 10px;">Scale:</label>
+                    <input type="number" name="emotes.{{@index}}.scale" value="{{this.scale}}" step="0.1" min="0.1" max="5" placeholder="1.0" style="width: 60px;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Timing (milliseconds)</label>
+                <div class="form-fields">
+                    <label style="flex: 0;">Duration:</label>
+                    <input type="number" name="emotes.{{@index}}.duration" value="{{this.duration}}" step="100" min="100" placeholder="1500" style="width: 70px;">
+                    <label style="flex: 0; margin-left: 10px;">Fade In:</label>
+                    <input type="number" name="emotes.{{@index}}.fadeIn" value="{{this.fadeIn}}" step="50" min="0" placeholder="200" style="width: 60px;">
+                    <label style="flex: 0; margin-left: 10px;">Fade Out:</label>
+                    <input type="number" name="emotes.{{@index}}.fadeOut" value="{{this.fadeOut}}" step="50" min="0" placeholder="200" style="width: 60px;">
+                </div>
+            </div>
+
+            <div class="form-group" style="display: flex; gap: 5px; justify-content: flex-end; border-top: 1px solid var(--color-border-light-tertiary); padding-top: 8px; margin-top: 5px;">
+                <button type="button" class="preview-emote" data-emote-id="{{this.id}}" title="Preview (select a token first)">
+                    <i class="fas fa-play"></i> Preview
+                </button>
+                <button type="button" class="create-macro" data-emote-id="{{this.id}}" title="Create a macro for this emote">
+                    <i class="fas fa-scroll"></i> Create Macro
+                </button>
+                <button type="button" class="delete-emote" data-emote-id="{{this.id}}" title="Delete this emote" style="background: rgba(255,0,0,0.1);">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#unless emotes.length}}
+    <p class="notification info">No emotes configured. Click "Add Emote" to create one, or "Reset to Defaults" to load the built-in emotes.</p>
+    {{/unless}}
+
+    <div class="form-group" style="margin-top: 10px; display: flex; gap: 5px;">
+        <button type="button" class="add-emote" style="flex: 1;">
+            <i class="fas fa-plus"></i> Add Emote
+        </button>
+        <button type="button" class="reset-defaults" style="flex: 0 0 auto;">
+            <i class="fas fa-undo"></i> Reset to Defaults
+        </button>
+    </div>
+</form>
+
+<style>
+    .tokenflipper-emote-config .emote-list {
+        max-height: 450px;
+        overflow-y: auto;
+    }
+    .tokenflipper-emote-config .emote-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid var(--color-border-light-tertiary);
+        border-radius: 5px;
+        background: rgba(0,0,0,0.05);
+    }
+    .tokenflipper-emote-config .emote-header {
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid var(--color-border-light-tertiary);
+        padding-bottom: 5px;
+    }
+    .tokenflipper-emote-config .emote-header h4 {
+        margin: 0;
+        flex: 1;
+    }
+    .tokenflipper-emote-config .file-picker-button {
+        flex: 0 0 30px;
+        text-align: center;
+    }
+</style>
